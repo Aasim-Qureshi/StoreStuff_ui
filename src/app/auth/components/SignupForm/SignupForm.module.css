@@ -1,0 +1,45 @@
+.centerWrapper {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  width: 100dvw; /* take full width of parent */
+  padding: 2rem 0; /* optional vertical spacing */
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 360px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+.error {
+  color: #d93025; /* Google-like red for errors */
+  font-size: 0.9rem;
+  margin-top: -0.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.footer a {
+  color: #6366f1; /* Tailwind's indigo-500 */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: #4f46e5; /* Tailwind's indigo-600 */
+  text-decoration: underline;
+  cursor: pointer;
+}
+

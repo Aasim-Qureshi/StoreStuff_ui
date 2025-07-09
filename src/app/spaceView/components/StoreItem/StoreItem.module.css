@@ -1,0 +1,56 @@
+.itemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;         
+  height: 60px;
+  width: 90%;
+  padding: 8px 16px;         
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.itemContainer:hover {
+  background-color: #f1f3f4;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;                
+}
+
+.icon {
+  width: 24px;               
+  color: #000000;
+}
+
+.name {
+  font-size: 16px;            
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;           
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;                 
+}
+
+.actionIcon {
+  width: 20px;                
+  height: 20px;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.actionIcon:hover {
+  color: #1a73e8;
+}

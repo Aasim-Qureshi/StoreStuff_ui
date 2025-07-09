@@ -1,0 +1,60 @@
+.mainContainer{
+  width: 100dvw;
+}
+
+.storeList {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  border-radius: 8px;
+
+  width: 100%;
+  max-width: 720px;  
+  min-width: 400px;  
+  margin: 54px auto 0 auto;
+}
+
+
+.spaceViewContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+  border-radius: 8px;
+  width: 100%;      
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center
+}
+
+.colName {
+  flex: 2;
+}
+
+.colActions {
+  flex: 0 0 120px;
+  text-align: right;
+}
+
+.emptyState {
+  padding: 24px;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}
+
+.backButton {
+  margin: 16px 0;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: #ddd;
+}

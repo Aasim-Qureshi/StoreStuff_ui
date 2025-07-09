@@ -1,0 +1,10 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100dvw;
+    height: 100dvh;
+}
+
+.contentContainer{
+    padding: 24px ;
+}
