@@ -1,28 +1,65 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# StoreStuff – Frontend
+This is the **React + TypeScript + Vite** frontend for the StoreStuff application — a collaborative cloud storage platform. It features a clean, fast development experience with hot module replacement (HMR), modern ESLint rules, and strict type safety.
 
-Currently, two official plugins are available:
+## Tech Stack
+- React
+- TypeScript
+- Vite
+- React Router
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Getting Started
+### 1. Install dependencies
+```bash
+npm install
+````
+### 2. Start the development server
+```bash
+npm run dev
+```
+The app will be available at:
+`http://localhost:5173`
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure (Feature-Based)
+This project follows a feature-based architecture, promoting scalability and maintainability by keeping related logic — UI, API calls, state, and styles — together in a single folder per feature. Shared functionality is organized under a separate shared/ folder.
 
+```
+src/
+  features/             # Feature-specific logic and UI
+    auth/               # Authentication pages, hooks, and services
+    spaces/             # Space creation, joining, and listing
+    spaceView/          # Folder/file management: upload, download, creation
+
+  shared/               # App-wide reusable code
+    components/         # UI components (buttons, modals, etc.)
+    hooks/              # Reusable custom React hooks
+    api/                # API client setup (e.g., axios instances)
+    routes/             # Centralized route and path definitions
+    types/              # Global TypeScript types and interfaces
+
+  main.tsx              # App entry point
+  App.tsx               # App layout and route setup
+```
+### Why Feature-Based?
+- Encapsulation: Keeps logic for each feature in one place
+- Scalability: Easier to add new features without bloating global folders
+- Clarity: Quickly locate the code for a specific screen or functionality
+- Reusability: Shared logic lives in clearly separated shared/ modules
+
+## Linting & Type Checking
+This project includes ESLint configured for **TypeScript-aware linting** with optional strict modes.
+## To expand or enable type-aware lint rules:
+Replace the recommended config:
 ```js
 export default tseslint.config({
   extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
+    // Use stricter type-aware rules
     ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
     ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
     ...tseslint.configs.stylisticTypeChecked,
   ],
   languageOptions: {
-    // other options...
     parserOptions: {
       project: ['./tsconfig.node.json', './tsconfig.app.json'],
       tsconfigRootDir: import.meta.dirname,
@@ -31,7 +68,11 @@ export default tseslint.config({
 })
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Recommended ESLint plugins for React:
+Install these for additional React rules:
+```bash
+npm install -D eslint-plugin-react-x eslint-plugin-react-dom
+```
 
 ```js
 // eslint.config.js
@@ -40,15 +81,27 @@ import reactDom from 'eslint-plugin-react-dom'
 
 export default tseslint.config({
   plugins: {
-    // Add the react-x and react-dom plugins
     'react-x': reactX,
     'react-dom': reactDom,
   },
   rules: {
-    // other rules...
-    // Enable its recommended typescript rules
     ...reactX.configs['recommended-typescript'].rules,
     ...reactDom.configs.recommended.rules,
   },
 })
 ```
+
+## 🤝 Contributing
+
+Pull requests are welcome! Before pushing changes, run:
+
+```bash
+npm run lint
+```
+---
+
+## 🧑‍💻 Author
+
+**Aasim Qureshi**
+GitHub: [@Aasim-Qureshi](https://github.com/Aasim-Qureshi)
+
