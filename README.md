@@ -8,7 +8,7 @@ This is the **React + TypeScript + Vite** frontend for the StoreStuff applicatio
 - Vite
 - React Router
 
-## 🛠️ Getting Started
+## Getting Started
 ### 1. Install dependencies
 ```bash
 npm install
@@ -91,7 +91,7 @@ export default tseslint.config({
 })
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Pull requests are welcome! Before pushing changes, run:
 
@@ -100,7 +100,7 @@ npm run lint
 ```
 ---
 
-## 🧑‍💻 Author
+## Author
 
 **Aasim Qureshi**
 GitHub: [@Aasim-Qureshi](https://github.com/Aasim-Qureshi)
