@@ -35,18 +35,44 @@ const Navbar: React.FC<NavbarProps> = ({
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res: any = await getCurrentUser();
-        console.log('[Navbar] /auth/me response:', res.data);
-        setUser(res.data);
-      } catch (err) {
-        console.error('[Navbar] Failed to fetch user:', err);
-      }
-    };
+  const fetchUser = async () => {
+    try {
+      const res: any = await getCurrentUser();
+      console.log('[Navbar] /auth/me response:', res.data);
+      setUser(res.data);
+    } catch (err) {
+      console.error('[Navbar] Failed to fetch user:', err);
+    }
+  };
 
-    fetchUser();
-  }, []);
+  fetchUser();
+}, []);
+
+useEffect(() => {
+  const fetchInvitations = async () => {
+    if (!isDropdownOpen || !user?.email) {
+      console.log('[Navbar] Conditions not met. Skipping fetch.');
+      return;
+    }
+
+    console.log('[Navbar] Fetching invitations for:', user.email);
+    setLoadingInvites(true);
+    try {
+      const response: any = await getInvitations(user.email);
+      console.log('[Navbar] Invitations fetched:', response.data);
+      setInvitations(response.data || []);
+    } catch (err) {
+      console.error('[Navbar] Failed to fetch invitations:', err);
+      setInvitations([]);
+    } finally {
+      setLoadingInvites(false);
+    }
+  };
+
+  fetchInvitations();
+}, [isDropdownOpen, user]);
+
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('[Navbar] Input changed:', e.target.value);
