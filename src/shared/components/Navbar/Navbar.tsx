@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, ChevronDown } from 'lucide-react';
 import styles from './Navbar.module.css';
 import { decodedToken } from '../../hooks/useToken';
@@ -7,7 +7,7 @@ import { acceptInvite, getInvitations } from '../../../app/spaceView/api';
 type Invitation = {
   invitationId: string;
   recipientEmail: string;
-  status: 'pending' | 'accepted' | 'rejected'; // Adjust if your backend returns other values
+  status: 'pending' | 'accepted' | 'rejected';
 };
 
 type NavbarProps = {
@@ -42,27 +42,33 @@ const Navbar: React.FC<NavbarProps> = ({
     setInputValue('');
   };
 
-  const toggleDropdown = async () => {
+  const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
-
-    if (!isDropdownOpen && user?.email) {
-      setLoadingInvites(true);
-      try {
-        const response: any = await getInvitations(user.email);
-        setInvitations(response.data || []);
-        console.log("Invitations fetched:", response.data);
-      } catch (err) {
-        console.error("Failed to fetch invitations", err);
-        setInvitations([]);
-      } finally {
-        setLoadingInvites(false);
-      }
-    }
   };
+
+  useEffect(() => {
+    const fetchInvitations = async () => {
+      if (isDropdownOpen && user?.email) {
+        setLoadingInvites(true);
+        try {
+          const response: any = await getInvitations(user.email);
+          console.log('Invitations fetched:', response.data);
+          setInvitations(response.data || []);
+        } catch (err) {
+          console.error('Failed to fetch invitations', err);
+          setInvitations([]);
+        } finally {
+          setLoadingInvites(false);
+        }
+      }
+    };
+
+    fetchInvitations();
+  }, [isDropdownOpen, user?.email]);
 
   const handleAccept = (invitationId: string) => {
     const response = acceptInvite(invitationId);
-    console.log("Invitation accepted:", response);
+    console.log('Invitation accepted:', response);
     setInvitations((prev) =>
       prev.filter((inv) => inv.invitationId !== invitationId)
     );
