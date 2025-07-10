@@ -56,25 +56,32 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   useEffect(() => {
-    const fetchInvitations = async () => {
-      if (isDropdownOpen && user?.email) {
-        console.log('[Navbar] Fetching invitations for:', user.email);
-        setLoadingInvites(true);
-        try {
-          const response: any = await getInvitations(user.email);
-          console.log('[Navbar] Invitations fetched:', response.data);
-          setInvitations(response.data || []);
-        } catch (err) {
-          console.error('[Navbar] Failed to fetch invitations:', err);
-          setInvitations([]);
-        } finally {
-          setLoadingInvites(false);
-        }
-      }
-    };
+  console.log('[Navbar] useEffect triggered');
+  console.log('[Navbar] isDropdownOpen:', isDropdownOpen);
+  console.log('[Navbar] user?.email:', user?.email);
 
-    fetchInvitations();
-  }, [isDropdownOpen, user?.email]);
+  const fetchInvitations = async () => {
+    if (isDropdownOpen && user?.email) {
+      console.log('[Navbar] Fetching invitations for:', user.email);
+      setLoadingInvites(true);
+      try {
+        const response: any = await getInvitations(user.email);
+        console.log('[Navbar] Invitations fetched:', response.data);
+        setInvitations(response.data || []);
+      } catch (err) {
+        console.error('[Navbar] Failed to fetch invitations:', err);
+        setInvitations([]);
+      } finally {
+        setLoadingInvites(false);
+      }
+    } else {
+      console.log('[Navbar] Conditions not met. Skipping fetch.');
+    }
+  };
+
+  fetchInvitations();
+}, [isDropdownOpen, user?.email]);
+
 
   const handleAccept = (invitationId: string) => {
     console.log('[Navbar] Accepting invitation:', invitationId);
