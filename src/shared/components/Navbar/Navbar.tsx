@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({
     try {
       const res: any = await getCurrentUser();
       console.log('[Navbar] /auth/me response:', res.data);
-      setUser(res.data);
+      setUser(res.data.data);
     } catch (err) {
       console.error('[Navbar] Failed to fetch user:', err);
     }
