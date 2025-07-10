@@ -17,3 +17,7 @@ export const login = (loginData: LoginData) => {
 export const signup = async (signupData: SignupData) => {
   return apiClient.post('/auth/create', signupData, {}, 'Failed to create account');
 };
+
+export const getCurrentUser = async () => {
+  return apiClient.get('/auth/me', {}, 'Failed to fetch current user');
+};

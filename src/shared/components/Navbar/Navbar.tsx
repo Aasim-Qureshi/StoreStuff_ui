@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, ChevronDown } from 'lucide-react';
 import styles from './Navbar.module.css';
-import { decodedToken } from '../../hooks/useToken';
+
 import { acceptInvite, getInvitations } from '../../../app/spaceView/api';
+import { getCurrentUser } from '../../../app/auth/api';
 
 type Invitation = {
   invitationId: string;
@@ -10,14 +11,17 @@ type Invitation = {
   status: 'pending' | 'accepted' | 'rejected';
 };
 
+type User = {
+  id: string;
+  email: string;
+  username: string;
+};
+
 type NavbarProps = {
   searchType: 'spaceDashboard' | 'insideSpace';
   onSearch: (query: string) => void;
   onInvite?: (email: string) => void;
 };
-
-const user = decodedToken();
-console.log('[Navbar] Decoded user:', user);
 
 const Navbar: React.FC<NavbarProps> = ({
   searchType,
@@ -28,6 +32,21 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [loadingInvites, setLoadingInvites] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res: any = await getCurrentUser();
+        console.log('[Navbar] /auth/me response:', res.data);
+        setUser(res.data);
+      } catch (err) {
+        console.error('[Navbar] Failed to fetch user:', err);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('[Navbar] Input changed:', e.target.value);
@@ -56,32 +75,31 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   useEffect(() => {
-  console.log('[Navbar] useEffect triggered');
-  console.log('[Navbar] isDropdownOpen:', isDropdownOpen);
-  console.log('[Navbar] user?.email:', user?.email);
+    console.log('[Navbar] useEffect triggered');
+    console.log('[Navbar] isDropdownOpen:', isDropdownOpen);
+    console.log('[Navbar] user?.email:', user?.email);
 
-  const fetchInvitations = async () => {
-    if (isDropdownOpen && user?.email) {
-      console.log('[Navbar] Fetching invitations for:', user.email);
-      setLoadingInvites(true);
-      try {
-        const response: any = await getInvitations(user.email);
-        console.log('[Navbar] Invitations fetched:', response.data);
-        setInvitations(response.data || []);
-      } catch (err) {
-        console.error('[Navbar] Failed to fetch invitations:', err);
-        setInvitations([]);
-      } finally {
-        setLoadingInvites(false);
+    const fetchInvitations = async () => {
+      if (isDropdownOpen && user?.email) {
+        console.log('[Navbar] Fetching invitations for:', user.email);
+        setLoadingInvites(true);
+        try {
+          const response: any = await getInvitations(user.email);
+          console.log('[Navbar] Invitations fetched:', response.data);
+          setInvitations(response.data || []);
+        } catch (err) {
+          console.error('[Navbar] Failed to fetch invitations:', err);
+          setInvitations([]);
+        } finally {
+          setLoadingInvites(false);
+        }
+      } else {
+        console.log('[Navbar] Conditions not met. Skipping fetch.');
       }
-    } else {
-      console.log('[Navbar] Conditions not met. Skipping fetch.');
-    }
-  };
+    };
 
-  fetchInvitations();
-}, [isDropdownOpen, user?.email]);
-
+    fetchInvitations();
+  }, [isDropdownOpen, user?.email]);
 
   const handleAccept = (invitationId: string) => {
     console.log('[Navbar] Accepting invitation:', invitationId);
