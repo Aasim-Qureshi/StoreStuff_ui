@@ -17,6 +17,7 @@ type NavbarProps = {
 };
 
 const user = decodedToken();
+console.log('[Navbar] Decoded user:', user);
 
 const Navbar: React.FC<NavbarProps> = ({
   searchType,
@@ -29,33 +30,42 @@ const Navbar: React.FC<NavbarProps> = ({
   const [loadingInvites, setLoadingInvites] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('[Navbar] Input changed:', e.target.value);
     setInputValue(e.target.value);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('[Navbar] Form submitted with:', inputValue);
     if (searchType === 'insideSpace') {
+      console.log('[Navbar] Sending invite...');
       onInvite?.(inputValue);
     } else {
+      console.log('[Navbar] Performing search...');
       onSearch(inputValue);
     }
     setInputValue('');
   };
 
   const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
+    setDropdownOpen((prev) => {
+      const next = !prev;
+      console.log(`[Navbar] Toggling dropdown: ${next ? 'Open' : 'Closed'}`);
+      return next;
+    });
   };
 
   useEffect(() => {
     const fetchInvitations = async () => {
       if (isDropdownOpen && user?.email) {
+        console.log('[Navbar] Fetching invitations for:', user.email);
         setLoadingInvites(true);
         try {
           const response: any = await getInvitations(user.email);
-          console.log('Invitations fetched:', response.data);
+          console.log('[Navbar] Invitations fetched:', response.data);
           setInvitations(response.data || []);
         } catch (err) {
-          console.error('Failed to fetch invitations', err);
+          console.error('[Navbar] Failed to fetch invitations:', err);
           setInvitations([]);
         } finally {
           setLoadingInvites(false);
@@ -67,8 +77,9 @@ const Navbar: React.FC<NavbarProps> = ({
   }, [isDropdownOpen, user?.email]);
 
   const handleAccept = (invitationId: string) => {
+    console.log('[Navbar] Accepting invitation:', invitationId);
     const response = acceptInvite(invitationId);
-    console.log('Invitation accepted:', response);
+    console.log('[Navbar] Invitation accepted response:', response);
     setInvitations((prev) =>
       prev.filter((inv) => inv.invitationId !== invitationId)
     );
