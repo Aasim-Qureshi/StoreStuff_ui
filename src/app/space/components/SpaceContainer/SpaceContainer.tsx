@@ -83,14 +83,25 @@ const SpaceContainer: React.FC<SpaceContainerProps> = ({ space: initialSpace, on
             <input
               className={styles.editInput}
               value={newName}
+              onClick={(e) => e.stopPropagation()}
               onChange={(e) => setNewName(e.target.value)}
               disabled={loading}
             />
-            <button className={styles.saveBtn} onClick={handleUpdate} disabled={loading}>Save</button>
+            <button
+              className={styles.saveBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleUpdate();
+              }}
+              disabled={loading}
+            >
+              Save
+            </button>
           </>
         ) : (
           <h2 className={styles.spaceName}>{space.name}</h2>
         )}
+
 
         <div className={styles.iconButtons}>
           <FiTrash2

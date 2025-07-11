@@ -30,7 +30,7 @@ async function fetchSpaces() {
   const handleCreateSpace = async (spaceName: string) => {
     try {
       await createSpace(spaceName);
-      fetchSpaces(); // Re-fetch after creation
+      fetchSpaces(); 
     } catch (err: any) {
       console.error("Failed to create space", err);
       alert(err.message || "Error creating space");
