@@ -7,25 +7,20 @@ const Dashboard: React.FC = () => {
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-async function fetchSpaces() {
-  setLoading(true);
-  setError(null);
-  try {
-    const response = await getSpacesByUserId();
-    setSpaces(response.data.data); 
-  } catch (err: any) {
-    setError(err.message || "Failed to load spaces");
-  } finally {
-    setLoading(false);
-  }
-}
-
-  console.log("spaces", spaces);
-
-  useEffect(() => {
-    fetchSpaces();
-  }, []);
+  const fetchSpaces = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getSpacesByUserId();
+      setSpaces(response.data.data); 
+    } catch (err: any) {
+      setError(err.message || "Failed to load spaces");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreateSpace = async (spaceName: string) => {
     try {
@@ -37,14 +32,27 @@ async function fetchSpaces() {
     }
   };
 
+  const handleSearch = (query: string) => {
+    setSearchTerm(query.toLowerCase());
+  };
+
+  const filteredSpaces = spaces.filter((space) =>
+    space.name.toLowerCase().includes(searchTerm)
+  );
+
+  useEffect(() => {
+    fetchSpaces();
+  }, []);
+
   if (loading) return <div>Loading spaces...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
 
   return (
     <SpaceLayout
-      spaces={spaces}
+      spaces={filteredSpaces}
       onCreateSpace={handleCreateSpace}
       onSpaceUpdate={fetchSpaces}
+      onSearch={handleSearch}
     />
   );
 };

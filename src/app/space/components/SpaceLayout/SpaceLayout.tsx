@@ -8,20 +8,18 @@ interface SpaceLayoutProps {
   spaces: Space[];
   onCreateSpace: (spaceName: string) => Promise<void>;
   onSpaceUpdate: () => void;
+  onSearch: (query: string) => void;
 }
 
-const onSearch = (searchTerm: string) => {
-  console.log('Search term:', searchTerm);
-};
 
-const SpaceLayout = ({ spaces, onCreateSpace, onSpaceUpdate }: SpaceLayoutProps) => {
+const SpaceLayout = ({ spaces, onCreateSpace, onSpaceUpdate, onSearch }: SpaceLayoutProps) => {
   return (
     <div className={styles.mainContainer}>
-      <Navbar searchType='spaceDashboard' onSearch={onSearch} />
+      <Navbar searchType="spaceDashboard" onSearch={onSearch} />
       <div className={styles.contentContainer}>
         <CreateSpaceForm onCreate={onCreateSpace} />
         {spaces.length === 0 ? (
-          <div style={{ marginTop: '1rem', fontStyle: 'italic' }}>
+          <div style={{ marginTop: "1rem", fontStyle: "italic" }}>
             No spaces found. You can create a new one above.
           </div>
         ) : (
@@ -31,5 +29,6 @@ const SpaceLayout = ({ spaces, onCreateSpace, onSpaceUpdate }: SpaceLayoutProps)
     </div>
   );
 };
+
 
 export default SpaceLayout;

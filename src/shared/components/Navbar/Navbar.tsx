@@ -139,7 +139,7 @@ useEffect(() => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>YourAppLogo</div>
+      <div className={styles.logo}>StoreStuff</div>
 
       <form onSubmit={handleFormSubmit} className={styles.searchForm}>
         <input
