@@ -71,7 +71,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
 
         <div className={styles.footer}>
           <Typography variant="helper">
-            Already have an account? <a href="/login">Log in</a>
+            Already have an account? <a href="/">Log in</a>
           </Typography>
         </div>
       </form>
